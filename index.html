@@ -10,7 +10,36 @@
 	<script src="libraries/p5.js"></script>
 	<script src="libraries/p5.dom.js"></script>
 	<script src="libraries/p5.sound.js"></script>
-	<script src="sketch.js"></script>	
+	<!--<script src="sketch.js"></script>-->
+	<script>
+		class Bubble()
+		{
+			constructor()
+			{
+				this.x = 150;
+				this.y = 150;
+			}
+			
+			show()
+			{
+				ellipse(this.x, this.y, 50, 50);
+				noFill();
+				stroke(255);
+			}
+		}
+		
+		function setup()
+		{
+			createCanvas(600, 400);
+		}
+		
+		function draw()
+		{	
+			bubble1 = new Bubble();
+			Bubble.show();
+			background(0);
+		}
+	</script>
 </head>
 <body>
 </body>
