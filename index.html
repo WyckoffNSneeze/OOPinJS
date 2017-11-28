@@ -12,16 +12,17 @@
 	<script src="libraries/p5.sound.js"></script>
 	<!--<script src="sketch.js"></script>-->
 	<script>
+	var score = 0;
+	var timer = 35;
 	
-	var gravity = p5.Vector(0, .1)
 		class Bubble
 		{
 			constructor(x, y, rad)
 			{
-				this.x = x;
-				this.y = y;
 				this.rad = rad;
 				this.acc = new p5.Vector(0,0);
+				this.vel = new p5.Vector(random(-3, 2),random(-6,-9));
+				this.pos = new p5.Vector(x, y);
 			}
 			
 			show()
@@ -29,18 +30,19 @@
 				stroke(255);
 				strokeWeight(3);
 				noFill();
-				ellipse(this.x, this.y, this.rad, this.rad);
+				ellipse(this.pos.x, this.pos.y, this.rad, this.rad);
 			}
 			
 			move()
 			{
-				//this.y += random(-5, 5);
-				//this.x += random(-5, 5);
+				this.vel.add(this.acc);
+				this.pos.add(this.vel);
+				this.acc.mult(0);
 			}
 			
 			clicked()
 			{
-				var d = dist(mouseX, mouseY, this.x, this.y)
+				var d = dist(mouseX, mouseY, this.pos.x, this.pos.y)
 				if(d < this.rad)
 				{
 					console.log("click");
@@ -53,13 +55,15 @@
 			}
 		}
 		
+		
+		
 		var bubbles = [];
 		function setup()
 		{
 			createCanvas(1920, 1080);
-			for(var i = 0; i < 3; i++)
+			for(var i = 0; i < 1; i++)
 			{
-				var x = 100 + 50 * i;
+				var x = 1000 + 50 * i;
 				bubbles[i] = new Bubble(x, x, (i + 1) * 25)
 			}
 		}
@@ -69,9 +73,19 @@
 			background(0);
 			for(var i = 0; i < bubbles.length; i++)
 			{
-				bubbles[i].show();
+				bubbles[i].applyForce(new p5.Vector(random(-.01, .06), 0));
 				bubbles[i].move();
-				bubbles[i].applyForce(gravity);
+				bubbles[i].show();
+			}
+			
+			if(timer <= 0)
+			{
+				bubbles.push(new Bubble(random(0, windowWidth - 60), 1000, random(60, 90)));
+				timer = 35;
+			}
+			else
+			{
+				timer--;
 			}
 		}
 		
