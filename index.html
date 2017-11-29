@@ -13,7 +13,8 @@
 	<!--<script src="sketch.js"></script>-->
 	<script>
 	var score = 0;
-	var timer = 35;
+	var timer = 65;
+	var prevTimer = 65;
 	
 		class Bubble
 		{
@@ -42,10 +43,10 @@
 			
 			clicked()
 			{
-				var d = dist(mouseX, mouseY, this.pos.x, this.pos.y)
+				var d = dist(mouseX, mouseY, this.pos.x, this.pos.y);
 				if(d < this.rad)
 				{
-					console.log("click");
+					bubbles.splice(this ,1);
 				}
 			}
 			
@@ -60,28 +61,35 @@
 		var bubbles = [];
 		function setup()
 		{
-			createCanvas(1920, 1080);
-			for(var i = 0; i < 1; i++)
-			{
-				var x = 1000 + 50 * i;
-				bubbles[i] = new Bubble(x, x, (i + 1) * 25)
-			}
+			createCanvas(window.innerWidth, window.innerHeight);
 		}
-		
+
 		function draw()
 		{	
 			background(0);
+			
 			for(var i = 0; i < bubbles.length; i++)
 			{
-				bubbles[i].applyForce(new p5.Vector(random(-.01, .06), 0));
+				if(bubbles[i].pos.y < 0)
+				{
+					bubbles.splice(bubbles[i] ,1);	
+				}
+				
+				bubbles[i].applyForce(new p5.Vector(random(-.01, .01), 0));
 				bubbles[i].move();
 				bubbles[i].show();
 			}
 			
 			if(timer <= 0)
 			{
-				bubbles.push(new Bubble(random(0, windowWidth - 60), 1000, random(60, 90)));
-				timer = 35;
+				bubbles.push(new Bubble(random(0, windowWidth - 60), windowHeight - 50, random(60, 90)));
+				timer = prevTimer - 5;
+				prevTimer-=5;
+			}
+			
+			if(prevTimer <= 19)
+			{
+				prevTimer = 20;
 			}
 			else
 			{
