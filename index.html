@@ -15,6 +15,8 @@
 	var score = 0;
 	var timer = 65;
 	var prevTimer = 65;
+	var pop;
+	var oof;
 	
 		class Bubble
 		{
@@ -46,7 +48,12 @@
 				var d = dist(mouseX, mouseY, this.pos.x, this.pos.y);
 				if(d < this.rad)
 				{
-					bubbles.splice(this ,1);
+					return true;
+				}
+				
+				else
+				{
+					return false;
 				}
 			}
 			
@@ -61,6 +68,8 @@
 		var bubbles = [];
 		function setup()
 		{
+			pop = new Audio("pop.mp3");
+			oof = new Audio("oof.mp3")
 			createCanvas(window.innerWidth, window.innerHeight);
 		}
 
@@ -73,6 +82,7 @@
 				if(bubbles[i].pos.y < 0)
 				{
 					bubbles.splice(bubbles[i] ,1);	
+					oof.play();
 				}
 				
 				bubbles[i].applyForce(new p5.Vector(random(-.01, .01), 0));
@@ -99,9 +109,13 @@
 		
 		function mousePressed()
 		{
-			for(var i = 0; i < bubbles.length; i++)
+			for(var i = bubbles.length - 1; i >= 0; i--)
 			{
-				bubbles[i].clicked();
+				if(bubbles[i].clicked())
+				{
+					bubbles.splice(i, 1);
+					pop.play();
+				}
 			}
 		}
 		
