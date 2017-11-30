@@ -26,6 +26,9 @@
 	var prevTimer = 65;
 	var pop;
 	var oof;
+	var r = 255;
+	var g = 255;
+	var b = 255;
 	
 		class Bubble
 		{
@@ -39,7 +42,7 @@
 			
 			show()
 			{
-				stroke(0);
+				stroke(r, g, b);
 				strokeWeight(3);
 				noFill();
 				ellipse(this.pos.x, this.pos.y, this.rad * 2, this.rad * 2);
@@ -84,7 +87,7 @@
 
 		function draw()
 		{				
-			background(0, 200, 255);
+		background(0, 200, 255);
 			
 			if(score <= 0)
 			{
@@ -92,7 +95,7 @@
 				textSize(32);
 				textAlign(CENTER, CENTER);
 				text("You lost", windowWidth/2, windowHeight/2);
-				bubbles.splice(0, bubbles.length());
+				bubbles.splice(0, bubbles.length);
 			}
 			
 			textSize(25);
